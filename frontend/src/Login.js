@@ -11,7 +11,8 @@ function Login({ setToken }) {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("https://clinical-trial-app-4x6c.onrender.com/api/auth/login", {
+
         email,
         password
       });
