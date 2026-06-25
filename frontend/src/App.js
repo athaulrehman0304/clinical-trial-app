@@ -108,9 +108,16 @@ function App() {
         trialId: "",
         visitDate: ""
       });
-    } catch {
-      setError("Something went wrong.");
-    }
+      
+      } catch (err) {
+        if (err.response) {
+          setError(err.response.data.message || "Unable to save participant. Please try again.");
+        } else if (err.request) {
+          setError("Cannot connect to server. Please try again.");
+        } else {
+          setError("Unexpected error occurred.");
+        }
+      }
   };
 
   const handleEdit = (p) => {
@@ -132,8 +139,14 @@ function App() {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchParticipants();
-    } catch {
-      setError("Delete failed.");
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.message || "Unable to delete participant. Please try again.");
+      } else if (err.request) {
+        setError("Cannot connect to server.");
+      } else {
+        setError("Unexpected error occurred.");
+      }
     }
   };
 
