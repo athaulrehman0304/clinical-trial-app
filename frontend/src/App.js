@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import Login from "./Login";
 
-const API_URL = "https://clinical-trial-app-4x6c.onrender.com";
+const API_URL = "http://localhost:5000";
 
 function App() {
   const [participants, setParticipants] = useState([]);
@@ -53,6 +53,16 @@ function App() {
     e.preventDefault();
     setMessage("");
     setError("");
+    
+    if (formData.participantId.trim() === "") {
+    setError("Participant ID cannot be empty.");
+    return;
+    }
+
+    if (!/^[A-Za-z\s]+$/.test(formData.name.trim())) {
+    setError("Name should contain only letters and spaces.");
+    return;
+    }
 
     if (formData.age < 1 || formData.age > 120) {
       setError("Age must be between 1 and 120.");
