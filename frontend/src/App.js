@@ -70,8 +70,8 @@ function App() {
     return;
     }
 
-    if (formData.age < 1 || formData.age > 120) {
-      setError("Age must be between 1 and 120.");
+    if (formData.age < 18 || formData.age > 120) {
+      setError("Participants must be between 18 and 120 years old.");
       return;
     }
 
