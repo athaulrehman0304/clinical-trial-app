@@ -10,6 +10,7 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
 
@@ -33,16 +34,21 @@ function App() {
   }, [token]);
 
   const fetchParticipants = async () => {
+    setLoading(true);
+
     try {
       const res = await axios.get(`${API_URL}/api/participants`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       setParticipants(res.data);
     } catch (err) {
       if (err.response && err.response.status === 401) {
         localStorage.removeItem("token");
         setToken(null);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -208,6 +214,7 @@ function App() {
       </form>
 
       <h2>Participants</h2>
+      {loading && <p>Loading participants...</p>}
       <button onClick={exportToCSV}>Export CSV</button>
 
       <input
